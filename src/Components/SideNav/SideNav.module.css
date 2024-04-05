@@ -1,0 +1,109 @@
+.sideNav_container {
+  height: calc(100vh - 30px);
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  gap: 20px;
+}
+.nav_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 70px;
+  height: 100vh;
+  background-color: white;
+}
+.logo_container {
+  width: 50px;
+  & img {
+    width: 100%;
+    aspect-ratio: 1.5/1;
+  }
+}
+
+.nav_container {
+  & ul {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  & li {
+    cursor: pointer;
+    list-style: none;
+    margin: 0 !important;
+    padding: 10px 20px !important;
+    border-radius: 5px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+    color: #7c7c7c;
+    overflow: hidden;
+    font-size: 14px;
+    & .routeName {
+      width: 0px;
+      opacity: 0;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
+.routeContainer {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  justify-content: flex-start;
+  & i {
+    font-size: 18px;
+  }
+}
+.sideNav_container:hover {
+  & p {
+    display: block;
+    opacity: 1;
+    margin-left: 20px;
+    width: 70px;
+  }
+  & .routeName {
+    display: block;
+    opacity: 1;
+    margin-left: 20px;
+    width: 90px;
+  }
+}
+
+.active_link {
+  color: #0083db;
+}
+.logout {
+  width: 100%;
+
+  justify-self: flex-end;
+  & button {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.15);
+    color: #7c7c7c;
+    border: none;
+    transition: 0.3s ease;
+    border-radius: 5px;
+    & i {
+      font-size: 21px;
+      margin-left: 10px;
+      color: #7c7c7c;
+    }
+    & p {
+      transition: 0.3s ease;
+      opacity: 0;
+      width: 0;
+    }
+  }
+}

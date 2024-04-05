@@ -1,0 +1,112 @@
+h1 {
+  font-size: 25px;
+}
+
+.login_container__section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login_section {
+  background-color: white;
+  width: 30%;
+  height: 100vh;
+  position: relative;
+  padding-inline: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.picture_section {
+  display: flex;
+  width: 70%;
+  background-image: url("../../../assets/OfficePic.png");
+  background-color: #004979;
+  background-blend-mode: multiply;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-size: cover;
+  padding-left: 125px;
+}
+.image_container {
+  width: 220px;
+  & img {
+    width: 100%;
+    aspect-ratio: 2/1;
+  }
+}
+
+.description {
+  & p {
+    font-size: 32px;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+    transform: translateY(-25px) translateX(-5px);
+  }
+}
+
+.logo_dark {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  width: 120px;
+  & img {
+    width: 100%;
+    aspect-ratio: 2/1;
+  }
+}
+
+.login_form {
+  width: 100%;
+  height: max-content;
+  padding-inline: 20px;
+  padding-block: 35px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  & p {
+    text-transform: capitalize;
+    color: rgb(176, 176, 176);
+  }
+  & h3 {
+    font-weight: 700;
+    color: #0083db;
+    text-transform: capitalize;
+  }
+  & form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-block: 15px;
+
+    & input {
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      transition: 0.3s ease;
+      border: 1px solid #2caaff !important;
+    }
+    & input::placeholder {
+      color: rgba(128, 128, 128, 0.5);
+    }
+    & input:focus {
+      outline: none !important;
+      border: 1px solid #2caaff !important;
+      box-shadow: 0px 0px 1px 4px #0083db4f;
+    }
+    & button {
+      background-color: #0083db;
+      color: white;
+      outline: none;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-weight: bold;
+    }
+  }
+}
