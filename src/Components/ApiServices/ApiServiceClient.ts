@@ -1,10 +1,32 @@
 import { env } from "../../environments.development";
 
 export class ApiClient {
-  baseURL: string = env.baseURL;
+  private baseURL: string = env.baseURL;
+  public token?: string | null;
+  constructor() {
+    if (localStorage.getItem("token")) {
+      this.token = localStorage.getItem("token");
+    }
+  }
 
-  async get(url: string) {
-    return await fetch(this.baseURL + url);
+  async get(url: string, params?: any) {
+    if (!params) {
+      return await fetch(this.baseURL + url, {
+        headers: { Authorization: `Bearer ${this.token}` },
+      });
+    } else {
+      let urlParams: URLSearchParams = new URLSearchParams(params);
+
+      let newURL = `${url}?${urlParams}`;
+
+      return await fetch(this.baseURL + newURL, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`,
+        },
+      });
+    }
   }
   async post<PostRequestBody>(url: string, body: PostRequestBody | any) {
     return await fetch(this.baseURL + url, {
@@ -12,7 +34,6 @@ export class ApiClient {
       headers: {
         "Content-Type": "application/json-patch+json",
       },
-      // mode: "no-cors",
 
       body,
     });

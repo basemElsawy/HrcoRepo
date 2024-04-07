@@ -8,6 +8,8 @@ import ApiService from "./Components/ApiServices/ApiServices.js";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import GlobalContext from "./Components/GlobalContext/globalContext.js";
+import ShowEmployees from "./Components/ShowEmployees/ShowEmployees.js";
+import EditComponent from "./Components/EditOnEmployees/EditComponent.js";
 
 function App(props: any) {
   const navigate = useNavigate();
@@ -24,6 +26,8 @@ function App(props: any) {
             <div className="content-routes">
               <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/show-employees" element={<ShowEmployees />} />
+                <Route path="/Edit/:id" element={<EditComponent />} />
               </Routes>
             </div>
           </main>

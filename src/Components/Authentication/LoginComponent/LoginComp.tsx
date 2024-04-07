@@ -29,8 +29,8 @@ const LoginComp = (props: any) => {
         role = roles.find((role: Roles) => role.id == res.role);
         if (res.isAuthenticated) {
           if (
-            role?.description == "admin" ||
-            role?.description == "hrProfessional"
+            role?.description === "admin" ||
+            role?.description === "hrProfessional"
           ) {
             toast("Successfully logged in");
             localStorage.setItem("token", JSON.stringify(res.token));
