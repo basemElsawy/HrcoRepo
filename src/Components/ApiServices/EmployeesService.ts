@@ -1,3 +1,4 @@
+import { UsersPatch } from "../Models/Models";
 import { ApiClient } from "./ApiServiceClient";
 
 class EmployeesService {
@@ -27,6 +28,20 @@ class EmployeesService {
       return data.json();
     } catch (error) {
       console.log(error);
+    }
+  }
+  public async patchSpecificUser(
+    userID: string | undefined,
+    body: UsersPatch | undefined
+  ) {
+    try {
+      let data = await this.apiClient.patch(
+        `/api/Authentication/UpdateUser?userID=${userID}`,
+        body
+      );
+      return data.json();
+    } catch (err) {
+      console.log(err);
     }
   }
 }

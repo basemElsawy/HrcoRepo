@@ -14,7 +14,7 @@ const HomePage = () => {
   useEffect(() => {
     dashboardService.GetAllUsers(1, 5).then((res: UsersPage | any) => {
       setUsers(res.data);
-      console.log(res.data.image);
+      console.log(res.data);
     });
   }, [0]);
 
@@ -68,7 +68,7 @@ const HomePage = () => {
               {users &&
                 users.map((item: Users, idx: number) => {
                   return (
-                    <tr className={styles.emp_data} key={item.Id}>
+                    <tr className={styles.emp_data} key={item.id}>
                       <td>{idx + 1}</td>
                       <td className={styles.image_td}>
                         <div className={styles.person_image}>
@@ -80,7 +80,7 @@ const HomePage = () => {
                       <td>{item.title}</td>
                       <td>
                         <div className={styles.table_buttons}>
-                          <Link to={"/edit/1"}>
+                          <Link to={`/edit/${item.employeeCode}`}>
                             <button className={styles.options_btn}>
                               <i className="fa-solid fa-pen-to-square"></i>
                             </button>

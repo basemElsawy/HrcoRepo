@@ -22,7 +22,7 @@ const SideNav = ({ navigator }: any) => {
           <ul>
             {appRoutes.map((route: Routes) => {
               return (
-                <li>
+                <li key={route.id}>
                   <div className={styles.routeContainer}>
                     <i className={route.icon}></i>
                     <div className={styles.routeName}>

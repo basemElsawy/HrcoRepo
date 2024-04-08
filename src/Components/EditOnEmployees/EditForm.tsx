@@ -1,43 +1,34 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Image from "../../assets/Unknown_person.jpg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./EditStyling.module.css";
-import EmployeesService from "../ApiServices/EmployeesService";
 import { mainContext } from "../GlobalContext/globalContext";
 import { Inputs, Roles, Users } from "../Models/Models";
 const EditForm = (props: any) => {
-  const employeesService = new EmployeesService();
   const { roles }: any = useContext(mainContext);
-  const { id }: any = useParams<string>();
-  const [user, setUser] = useState<Users>();
+
   const { register, handleSubmit } = useForm<Inputs>();
-  const [imageSelected, imageSetter] = useState<Blob>();
-  const [toBase64, setToBase64] = useState<string | ArrayBuffer | null>();
 
-  const imageConverterHandler = () => {
-    if (!imageSelected) return;
+  const [imageSelected, imageSetter] = useState<any>();
+  const [toBase64, setToBase64] = useState<any>();
 
+  const setImageHandler = (e: any) => {
+    imageConverterHandler(e.target.files[0]);
+  };
+
+  const imageConverterHandler = (file: any) => {
     let fileReader = new FileReader();
-
-    fileReader.readAsDataURL(imageSelected);
-    fileReader.onloadend = async () => {
+    fileReader.readAsDataURL(file);
+    fileReader.onloadend = () => {
       setToBase64(fileReader.result);
-      console.log("finished reading");
     };
   };
 
-  const submitHandler: SubmitHandler<Inputs> = (data) => {};
-
-  useEffect(() => {
-    employeesService
-      .getSpecificUser(id)
-      .then((res: Users) => {
-        setUser(res);
-        props.nameSetter(res.fullName);
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
+  const submitHandler: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    props.updateUserFunc(data);
+  };
 
   return (
     <form
@@ -46,13 +37,13 @@ const EditForm = (props: any) => {
     >
       <div className={styles.imageInput}>
         <label htmlFor="add_image">
-          <img src={Image} alt="" />
+          <img src={toBase64 ? toBase64 : Image} alt="" />
           <i className="fa-solid fa-plus"></i>
         </label>
         <input
           type="file"
           id="add_image"
-          onChange={imageConverterHandler}
+          onChange={setImageHandler}
           style={{ display: "none" }}
         />
       </div>
@@ -61,13 +52,15 @@ const EditForm = (props: any) => {
           <input
             type="text"
             placeholder="Employee Full Name"
-            {...register("fullName")}
+            defaultValue={props.user?.fullName}
+            {...register("FullName")}
             required
           />
         </div>
         <div>
           <input
             type="text"
+            defaultValue={props.user?.title}
             placeholder="Employee title"
             {...register("title")}
             required
@@ -76,7 +69,8 @@ const EditForm = (props: any) => {
         <div>
           <input
             type="text"
-            placeholder="Email"
+            defaultValue={props.user?.email}
+            placeholder="email"
             required
             {...register("email")}
           />
@@ -85,15 +79,17 @@ const EditForm = (props: any) => {
           <input
             type="password"
             placeholder="Employee Password"
-            {...register("password")}
+            {...register("Password")}
             required
           />
         </div>
         <div>
-          <select name="Role" id="">
-            <option value={undefined} selected disabled>
-              Choose Role
-            </option>
+          <select
+            defaultValue={props.user?.roleID}
+            {...register("RoleID")}
+            name="Role"
+            id=""
+          >
             {roles.map((role: Roles) => {
               return (
                 <option key={role.id} value={role.id}>
@@ -104,7 +100,7 @@ const EditForm = (props: any) => {
           </select>
         </div>
       </div>
-      <div>
+      <div className={styles.submit_btn}>
         <button type="submit">submit</button>
       </div>
     </form>

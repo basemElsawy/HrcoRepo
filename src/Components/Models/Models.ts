@@ -17,16 +17,34 @@ export interface Role {
 }
 
 export interface Users {
-  Id: string;
+  id: string;
   email: string;
   password: string;
   image?: string;
   title: string;
   fullName: string;
-  EmployeeCode: string;
+  employeeCode: string;
   RoleID: number;
   Role: Role;
 }
+export interface UsersPatch {
+  email?: string;
+  Password?: string;
+  image?: string;
+  title?: string;
+  FullName?: string;
+  RoleID?: number;
+}
+// public string? FullName { get; set; }
+// public string? title { get; set; }
+
+// public string? image { get; set; }
+
+// public string? Password { get; set; }
+
+// public string? email { get; set; }
+
+// public int? RoleID { get; set; }
 
 export interface UsersPage {
   TotalCount: number;
@@ -39,8 +57,10 @@ export interface GContextModel {
 }
 
 export type Inputs = {
-  fullName: string;
+  FullName: string;
   email: string;
-  password: string;
+  image?: string;
+  Password: string;
   title: string;
+  RoleID: number;
 };
