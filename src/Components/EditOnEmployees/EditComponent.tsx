@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./EditStyling.module.css";
 import { useContext } from "react";
 import { mainContext } from "../GlobalContext/globalContext";
 import EditForm from "./EditForm";
 import EmployeesService from "../ApiServices/EmployeesService";
 import { Inputs, Users, UsersPatch } from "../Models/Models";
+import { toast } from "react-toastify";
 
 const EditComponent = () => {
   const employeesService = new EmployeesService();
@@ -14,6 +15,7 @@ const EditComponent = () => {
   const [user, setUser] = useState<Users>();
   const [editData, setEditData] = useState<UsersPatch | undefined>();
   const { id }: any = useParams<string>();
+  const navigator = useNavigate();
   useEffect(() => {
     employeesService
       .getSpecificUser(id)
@@ -25,10 +27,14 @@ const EditComponent = () => {
   }, [id]);
 
   const updateUser = (data: Inputs) => {
+    toast("Successfully Updated");
     employeesService
-      .patchSpecificUser(user?.id, data)
+      .patchSpecificUser(user?.id, JSON.stringify(data))
       .then((res) => {
         console.log(res);
+      })
+      .finally(() => {
+        navigator("/");
       })
       .catch((err) => console.log(err));
   };

@@ -25,6 +25,7 @@ export interface Users {
   fullName: string;
   employeeCode: string;
   RoleID: number;
+  phoneNumber: string;
   Role: Role;
 }
 export interface UsersPatch {
@@ -57,10 +58,12 @@ export interface GContextModel {
 }
 
 export type Inputs = {
-  FullName: string;
-  email: string;
-  image?: string;
-  Password: string;
-  title: string;
-  RoleID: number;
+  [FullName: string]: string | null | number;
+  email: string | null;
+  image: string | null;
+  Password: string | null;
+  title: string | null;
+  phoneNumber: string | null;
+
+  RoleID: number | null;
 };

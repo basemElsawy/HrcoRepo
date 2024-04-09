@@ -76,7 +76,7 @@ const HomePage = () => {
                         </div>
                       </td>
                       <td>{item.fullName}</td>
-                      <td>01132332421</td>
+                      <td>{item.phoneNumber}</td>
                       <td>{item.title}</td>
                       <td>
                         <div className={styles.table_buttons}>

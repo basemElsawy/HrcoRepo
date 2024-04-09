@@ -1,4 +1,4 @@
-import { UsersPatch } from "../Models/Models";
+import { Inputs, UsersPatch } from "../Models/Models";
 import { ApiClient } from "./ApiServiceClient";
 
 class EmployeesService {
@@ -32,7 +32,7 @@ class EmployeesService {
   }
   public async patchSpecificUser(
     userID: string | undefined,
-    body: UsersPatch | undefined
+    body: Inputs | string
   ) {
     try {
       let data = await this.apiClient.patch(

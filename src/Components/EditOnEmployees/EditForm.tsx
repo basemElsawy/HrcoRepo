@@ -4,12 +4,12 @@ import Image from "../../assets/Unknown_person.jpg";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./EditStyling.module.css";
 import { mainContext } from "../GlobalContext/globalContext";
-import { Inputs, Roles, Users } from "../Models/Models";
+import { Inputs, Roles, Users, UsersPatch } from "../Models/Models";
 const EditForm = (props: any) => {
   const { roles }: any = useContext(mainContext);
 
   const { register, handleSubmit } = useForm<Inputs>();
-
+  const [role, setRole] = useState<any>();
   const [imageSelected, imageSetter] = useState<any>();
   const [toBase64, setToBase64] = useState<any>();
 
@@ -20,14 +20,29 @@ const EditForm = (props: any) => {
   const imageConverterHandler = (file: any) => {
     let fileReader = new FileReader();
     fileReader.readAsDataURL(file);
+
     fileReader.onloadend = () => {
       setToBase64(fileReader.result);
     };
   };
 
+  const roleHandler = (e: any) => {
+    setRole(e.target.value);
+    console.log(role);
+  };
   const submitHandler: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    props.updateUserFunc(data);
+    let nullifiedData: Inputs;
+    console.log(data.RoleID);
+    for (let key in data) {
+      if (data[key] === "") {
+        data[key] = null;
+      }
+    }
+    console.log(data.RoleID);
+
+    nullifiedData = { ...data, image: toBase64, RoleID: role };
+
+    props.updateUserFunc(nullifiedData);
   };
 
   return (
@@ -44,6 +59,7 @@ const EditForm = (props: any) => {
           type="file"
           id="add_image"
           onChange={setImageHandler}
+          required
           style={{ display: "none" }}
         />
       </div>
@@ -71,7 +87,6 @@ const EditForm = (props: any) => {
             type="text"
             defaultValue={props.user?.email}
             placeholder="email"
-            required
             {...register("email")}
           />
         </div>
@@ -80,16 +95,17 @@ const EditForm = (props: any) => {
             type="password"
             placeholder="Employee Password"
             {...register("Password")}
-            required
           />
         </div>
         <div>
-          <select
-            defaultValue={props.user?.roleID}
-            {...register("RoleID")}
-            name="Role"
-            id=""
-          >
+          <input
+            type="text"
+            placeholder="Employee Phone Number"
+            {...register("phoneNumber")}
+          />
+        </div>
+        <div>
+          <select onChange={roleHandler} required id="">
             {roles.map((role: Roles) => {
               return (
                 <option key={role.id} value={role.id}>
