@@ -36,22 +36,12 @@ export interface UsersPatch {
   FullName?: string;
   RoleID?: number;
 }
-// public string? FullName { get; set; }
-// public string? title { get; set; }
-
-// public string? image { get; set; }
-
-// public string? Password { get; set; }
-
-// public string? email { get; set; }
-
-// public int? RoleID { get; set; }
 
 export interface UsersPage {
-  TotalCount: number;
-  data: Users[];
-  PageSize: number;
-  PageCount: number;
+  totalCount?: number;
+  data?: Users[];
+  pageSize?: number;
+  pageCount?: number;
 }
 export interface GContextModel {
   roles: Roles[];
@@ -64,6 +54,17 @@ export type Inputs = {
   Password: string | null;
   title: string | null;
   phoneNumber: string | null;
-
+  EmployeeCode: string | null | number;
   RoleID: number | null;
 };
+
+export interface PropsForUpdateForm {
+  isNewEmployee: boolean;
+  user: Users | null;
+  updateUserFunc(nullifiedData: Inputs): void;
+  addNewMember(newUserData: Inputs): void;
+}
+
+export interface GlobalContextData {
+  roles: Roles[];
+}

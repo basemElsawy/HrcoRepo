@@ -1,10 +1,8 @@
-import { PropsWithRef, useEffect, useState } from "react";
 import { Route, useNavigate, Routes } from "react-router-dom";
 import HomePage from "./Components/Home/HomePage.js";
 import LoginComp from "./Components/Authentication/LoginComponent/LoginComp.jsx";
 import ProtectedRoute from "./Components/Utils/PrivateRoute.js";
 import SideNav from "./Components/SideNav/SideNav.js";
-import ApiService from "./Components/ApiServices/ApiServices.js";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import GlobalContext from "./Components/GlobalContext/globalContext.js";
@@ -13,6 +11,7 @@ import EditComponent from "./Components/EditOnEmployees/EditComponent.js";
 
 function App(props: any) {
   const navigate = useNavigate();
+  const employeeState: boolean = true;
 
   return (
     <>
@@ -26,8 +25,15 @@ function App(props: any) {
             <div className="content-routes">
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/show-employees" element={<ShowEmployees />} />
-                <Route path="/Edit/:id" element={<EditComponent />} />
+                <Route path="/employees" element={<ShowEmployees />} />
+                <Route
+                  path="/Edit/:id"
+                  element={<EditComponent isNewEmployee={!employeeState} />}
+                />
+                <Route
+                  path="/Edit"
+                  element={<EditComponent isNewEmployee={employeeState} />}
+                />
               </Routes>
             </div>
           </main>

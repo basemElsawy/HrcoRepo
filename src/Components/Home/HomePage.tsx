@@ -7,13 +7,23 @@ import { ToastContainer, toast } from "react-toastify";
 import DashboardService from "../ApiServices/DashboardService";
 import { Users, UsersPage } from "../Models/Models";
 import unknown from "../../assets/Unknown_person.jpg";
-const HomePage = () => {
-  const [users, setUsers] = useState<Users[]>();
-  const dashboardService = new DashboardService();
+let shallowUsersPage: UsersPage = {
+  totalCount: 0,
+  data: [],
+  pageSize: 0,
+  pageCount: 0,
+};
 
+const HomePage = () => {
+  const [users, setUsers] = useState<Users[]>([]);
+  const [allUsersPageData, setPageData] = useState<UsersPage>(shallowUsersPage);
+  const dashboardService = new DashboardService();
+  let pageSize: number = 5;
   useEffect(() => {
-    dashboardService.GetAllUsers(1, 5).then((res: UsersPage | any) => {
+    dashboardService.GetAllUsers(1, pageSize).then((res: UsersPage | any) => {
+      console.log(res);
       setUsers(res.data);
+      setPageData(res);
       console.log(res.data);
     });
   }, [0]);
@@ -47,7 +57,7 @@ const HomePage = () => {
         <div className={styles.headline}>
           <h2>My Department</h2>
           <div className={styles.bottom_btn}>
-            <Link to={"/show-employees"}>
+            <Link to={"/employees"}>
               <button>More Employee</button>
             </Link>
           </div>
@@ -88,6 +98,9 @@ const HomePage = () => {
                           <button className={styles.options_btn}>
                             <i className="fa-solid fa-trash"></i>
                           </button>
+                          <button className={styles.options_btn}>
+                            <i className="fa-solid fa-comment"></i>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -96,6 +109,9 @@ const HomePage = () => {
               <tr></tr>
             </tbody>
           </table>
+        </div>
+        <div className={styles.tableFooter}>
+          <p>Showing {`${pageSize} of total ${allUsersPageData.totalCount}`}</p>
         </div>
       </div>
     </section>
