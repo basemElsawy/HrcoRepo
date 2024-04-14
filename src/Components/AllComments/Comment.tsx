@@ -32,11 +32,11 @@ const Comment = ({ comment }: { comment: commmentUI }) => {
       <div className={styles.commentFooter}>
         <div className={styles.employeeData}>
           <div className={styles.employeeImg}>
-            <img src={image} alt="" />
+            <img src={comment.userImage ? comment.userImage : image} alt="" />
           </div>
-          <div className={styles.employeeName}>basem elsawy</div>
+          <div className={styles.employeeName}>{comment.userName}</div>
         </div>
-        <div className={styles.commentDate}>july 15</div>
+        <div className={styles.commentDate}>{comment.createdAt}</div>
       </div>
     </div>
   );

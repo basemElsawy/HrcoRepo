@@ -19,6 +19,9 @@ const AllComments = () => {
   function nextPageHandler(): void {
     throw new Error("Function not implemented.");
   }
+
+  function editSpecificComment(): void {}
+
   useEffect(() => {
     let params = { moderatorID, pageSize, page };
     commentService

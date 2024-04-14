@@ -34,7 +34,7 @@
   width: 100%;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.206);
   height: 50vh;
-  border-radius: 10px;
+  border-radius: 10px !important;
 }
 
 .image_container {
@@ -47,6 +47,7 @@
     /* aspect-ratio: 3.5/ 1; */
   }
 }
+
 .image2_container {
   width: 100%;
   padding: 5px;
@@ -86,11 +87,11 @@
     color: #006eb7;
   }
   & table {
+    border-radius: 10px !important;
     width: 100%;
-
     margin-block: 10px 15px;
     border-radius: 10px;
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 15vh;
     border-spacing: 0px !important;
     & thead {
@@ -166,7 +167,8 @@
 }
 
 .table_wrapper {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  border-radius: 10px !important;
 }
 
 .table_wrapper::-webkit-scrollbar {
@@ -187,6 +189,7 @@
 .commentContainer {
   position: absolute;
   background-color: white;
+  z-index: 10000000;
   display: flex;
   align-items: center;
   gap: 10px;

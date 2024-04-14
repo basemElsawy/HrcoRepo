@@ -21,3 +21,7 @@ button {
 button:active {
   scale: 0.95;
 }
+
+table {
+  border-radius: 20px !important;
+}
