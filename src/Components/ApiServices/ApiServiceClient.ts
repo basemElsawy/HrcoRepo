@@ -9,7 +9,7 @@ export class ApiClient {
     }
   }
 
-  async get(url: string, params?: any) {
+  async get<getUrlSearchParams>(url: string, params?: getUrlSearchParams) {
     if (!params) {
       return await fetch(this.baseURL + url, {
         headers: { Authorization: `Bearer ${this.token}` },
@@ -50,3 +50,5 @@ export class ApiClient {
     });
   }
 }
+
+export default ApiClient;

@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import GlobalContext from "./Components/GlobalContext/globalContext.js";
 import ShowEmployees from "./Components/ShowEmployees/ShowEmployees.js";
 import EditComponent from "./Components/EditOnEmployees/EditComponent.js";
+import AllComments from "./Components/AllComments/AllComments.js";
 
 function App(props: any) {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function App(props: any) {
                   path="/Edit"
                   element={<EditComponent isNewEmployee={employeeState} />}
                 />
+                <Route path="/comments" element={<AllComments />} />
               </Routes>
             </div>
           </main>

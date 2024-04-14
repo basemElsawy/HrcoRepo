@@ -4,7 +4,7 @@ import styles from "./LoginCompStyles.module.css";
 import Logo from "../../../assets/Logo.png";
 import LogoDark from "../../../assets/logoDark.png";
 import ApiService from "../../ApiServices/ApiServices";
-import { Roles } from "../../Models/Models";
+import { LoggedInUser, Roles } from "../../Models/Models";
 import { ToastContainer, toast } from "react-toastify";
 
 import GlobalContext, { mainContext } from "../../GlobalContext/globalContext";
@@ -24,8 +24,7 @@ const LoginComp = (props: any) => {
     _apiService
       .PostMethod("/api/Authentication/LoginApi", stringifiedBody)
       .then((res) => res.json())
-      .then((res) => {
-        debugger;
+      .then((res: LoggedInUser) => {
         role = roles.find((role: Roles) => role.id == res.role);
         if (res.isAuthenticated) {
           if (

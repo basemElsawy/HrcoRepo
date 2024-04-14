@@ -68,3 +68,67 @@ export interface PropsForUpdateForm {
 export interface GlobalContextData {
   roles: Roles[];
 }
+
+export interface Comment {
+  employeeCode: string;
+  moderatorName: string;
+  moderatorID: string;
+  commentText: string;
+}
+
+export interface LoggedInUser {
+  email: string;
+  employeeCode: string;
+  expiresOn: string;
+  fullName: string;
+  image?: string;
+  isAuthenticated: boolean;
+  message: string;
+  role: number;
+  title?: string;
+  token: string;
+  userID: string;
+}
+
+export interface paramsForComments {
+  moderatorID: string;
+  page: number;
+  pageSize: number;
+}
+
+export interface commmentUI {
+  adminName: string;
+  commentMessage: string;
+  createdAt: string;
+  moderatorID: string;
+  userImage: string;
+  userName: string;
+}
+
+/**
+ * 
+ * 
+ * adminName
+: 
+"basem"
+commentMessage
+: 
+"good job"
+createdAt
+: 
+"2024-04-13T15:24:22.9893535"
+employeeCode
+: 
+"1"
+moderatorID
+: 
+"0ecc6bce-4e4f-4542-3531-08dc52f4cbf8"
+userImage
+: 
+"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAA
+userName
+: 
+"Basem Mohamed Abuzaid"
+ * 
+ * 
+ */

@@ -1,5 +1,6 @@
 import { ApiClient } from "./ApiServiceClient";
-import { Users, UsersPage } from "../Models/Models";
+import { Comment } from "../Models/Models";
+
 class DashboardService {
   apiClient: ApiClient = new ApiClient();
 
@@ -16,6 +17,18 @@ class DashboardService {
       console.log(error);
 
       throw new Error(error);
+    }
+  }
+  public async addCommentToUser(body: Comment) {
+    try {
+      let data = await this.apiClient.post(
+        "/api/Comments/setComment",
+        JSON.stringify(body)
+      );
+
+      return data.json();
+    } catch (error) {
+      console.log(error);
     }
   }
 }

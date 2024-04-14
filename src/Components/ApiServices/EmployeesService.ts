@@ -1,4 +1,4 @@
-import { Inputs, UsersPatch } from "../Models/Models";
+import { Comment, Inputs, UsersPatch } from "../Models/Models";
 import { ApiClient } from "./ApiServiceClient";
 
 class EmployeesService {
@@ -49,6 +49,19 @@ class EmployeesService {
       let data = await this.apiClient.post(
         "/api/Authentication/RegisterMethod",
         body
+      );
+
+      return data.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public async addCommentToUser(body: Comment) {
+    try {
+      let data = await this.apiClient.post(
+        "/api/Comments/setComment",
+        JSON.stringify(body)
       );
 
       return data.json();

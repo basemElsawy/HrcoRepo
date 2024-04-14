@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import styles from "./AuthLayout.module.css";
 import section1Pic from "../../assets/comments.png";
 import section2Pic from "../../assets/chart.png";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import DashboardService from "../ApiServices/DashboardService";
-import { Users, UsersPage } from "../Models/Models";
+import { Comment, LoggedInUser, Users, UsersPage } from "../Models/Models";
 import unknown from "../../assets/Unknown_person.jpg";
+import EmployeesService from "../ApiServices/EmployeesService";
 let shallowUsersPage: UsersPage = {
   totalCount: 0,
   data: [],
@@ -18,7 +19,43 @@ const HomePage = () => {
   const [users, setUsers] = useState<Users[]>([]);
   const [allUsersPageData, setPageData] = useState<UsersPage>(shallowUsersPage);
   const dashboardService = new DashboardService();
+
+  const [isCommenting, setCommentState] = useState<boolean>(false);
+  const [activeCommentIdx, setActiveComment] = useState<number>();
+  const [comment, setComment] = useState<string>("");
   let pageSize: number = 5;
+
+  const activateCommentWindow = (idx: number) => {
+    setActiveComment(idx);
+    setCommentState(true);
+  };
+
+  const sendCommentHandler = (empCode: string) => {
+    let admin: LoggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    let commentRequestBody: Comment = {
+      employeeCode: empCode,
+      moderatorName: admin.fullName,
+      moderatorID: admin.userID,
+      commentText: comment,
+    };
+    if (admin && comment.length) {
+      dashboardService
+        .addCommentToUser(commentRequestBody)
+        .then((res: any) => {
+          toast("comment added successfully");
+          console.log(res);
+        })
+        .catch((error) => {
+          toast("error occured try again later");
+          console.log(error);
+        });
+    } else {
+      toast("Please add some to text to the comment area");
+    }
+    setComment("");
+
+    setCommentState(false);
+  };
   useEffect(() => {
     dashboardService.GetAllUsers(1, pageSize).then((res: UsersPage | any) => {
       console.log(res);
@@ -98,8 +135,52 @@ const HomePage = () => {
                           <button className={styles.options_btn}>
                             <i className="fa-solid fa-trash"></i>
                           </button>
-                          <button className={styles.options_btn}>
-                            <i className="fa-solid fa-comment"></i>
+                          <button
+                            className={
+                              styles.options_btn + " " + styles.commentBtn
+                            }
+                          >
+                            <i
+                              onClick={() => {
+                                activateCommentWindow(idx);
+                              }}
+                              className="fa-solid fa-comment"
+                            ></i>
+                            <div
+                              className={
+                                idx === activeCommentIdx && isCommenting
+                                  ? styles.commentContainer +
+                                    " " +
+                                    styles.activeComment
+                                  : styles.commentContainer
+                              }
+                            >
+                              <div
+                                className={styles.closeBtn}
+                                onClick={() => setCommentState(false)}
+                              >
+                                <i className="fa-solid fa-close"></i>
+                              </div>
+                              <div className={styles.commentWrapper}>
+                                <input
+                                  type="text"
+                                  placeholder="want to say something"
+                                  value={comment}
+                                  onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                  ) => {
+                                    setComment(e.target.value);
+                                  }}
+                                />
+                                <button
+                                  onClick={() => {
+                                    sendCommentHandler(item.employeeCode);
+                                  }}
+                                >
+                                  Send
+                                </button>
+                              </div>
+                            </div>
                           </button>
                         </div>
                       </td>

@@ -11,3 +11,13 @@
 .content-routes {
   width: 100% !important;
 }
+
+button {
+  border: none;
+  color: #006eb7;
+  cursor: pointer;
+}
+
+button:active {
+  scale: 0.95;
+}

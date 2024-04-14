@@ -2,9 +2,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import EmployeesService from "../ApiServices/EmployeesService";
 import styles from "./showEmployees.module.css";
 import { Link } from "react-router-dom";
-import { UsersPage, Users } from "../Models/Models";
+import { UsersPage, Users, LoggedInUser, Comment } from "../Models/Models";
 import unknown from "../../assets/Unknown_person.jpg";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const shallowUser: Users = {
   id: "",
@@ -30,10 +30,45 @@ const ShowEmployees = () => {
   const [specificUser, setSpecificUser] = useState<Users>(shallowUser);
   const [employeeCode, setEmployeeCode] = useState<string>("");
   const [allUsersPage, setPageData] = useState<UsersPage>(shallowUsersPage);
+  const [isCommenting, setCommentState] = useState<boolean>(false);
+  const [activeCommentIdx, setActiveComment] = useState<number>();
+  const [comment, setComment] = useState<string>("");
   let [current, setCurrent] = useState(1);
+
   const pageSize = 10;
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setEmployeeCode(e.target.value);
+  };
+  const activateCommentWindow = (idx: number) => {
+    setActiveComment(idx);
+    setCommentState(true);
+  };
+
+  const sendCommentHandler = (empCode: string) => {
+    let admin: LoggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    let commentRequestBody: Comment = {
+      employeeCode: empCode,
+      moderatorName: admin.fullName,
+      moderatorID: admin.userID,
+      commentText: comment,
+    };
+    if (admin && comment.length) {
+      employeeService
+        .addCommentToUser(commentRequestBody)
+        .then((res: any) => {
+          toast("comment added successfully");
+          console.log(res);
+        })
+        .catch((error) => {
+          toast("error occured try again later");
+          console.log(error);
+        });
+    } else {
+      toast("Please add some to text to the comment area");
+    }
+    setComment("");
+
+    setCommentState(false);
   };
 
   const nextPageHandler = () => {
@@ -180,8 +215,52 @@ const ShowEmployees = () => {
                           <i className="fa-solid fa-trash"></i>
                         </button>
 
-                        <button className={styles.options_btn}>
-                          <i className="fa-solid fa-comment"></i>
+                        <button
+                          className={
+                            styles.options_btn + " " + styles.commentBtn
+                          }
+                        >
+                          <i
+                            onClick={() => {
+                              activateCommentWindow(idx);
+                            }}
+                            className="fa-solid fa-comment"
+                          ></i>
+                          <div
+                            className={
+                              idx === activeCommentIdx && isCommenting
+                                ? styles.commentContainer +
+                                  " " +
+                                  styles.activeComment
+                                : styles.commentContainer
+                            }
+                          >
+                            <div
+                              className={styles.closeBtn}
+                              onClick={() => setCommentState(false)}
+                            >
+                              <i className="fa-solid fa-close"></i>
+                            </div>
+                            <div className={styles.commentWrapper}>
+                              <input
+                                type="text"
+                                placeholder="want to say something"
+                                value={comment}
+                                onChange={(
+                                  e: ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  setComment(e.target.value);
+                                }}
+                              />
+                              <button
+                                onClick={() => {
+                                  sendCommentHandler(item.employeeCode);
+                                }}
+                              >
+                                Send
+                              </button>
+                            </div>
+                          </div>
                         </button>
                       </div>
                     </td>
@@ -213,6 +292,7 @@ const ShowEmployees = () => {
           <i className="fa-solid fa-caret-right"></i>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };
