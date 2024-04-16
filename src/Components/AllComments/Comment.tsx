@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./AllComments.module.css";
 import image from "../../assets/Unknown_person.jpg";
-import { commmentUI } from "../Models/Models";
-const Comment = ({ comment }: { comment: commmentUI }) => {
+import { CommmentUI } from "../Models/Models";
+import { ToastContainer, toast } from "react-toastify";
+
+const Comment = ({
+  comment,
+  index,
+  updateComment,
+  renderTrigger,
+}: {
+  comment: CommmentUI;
+  index: number;
+  renderTrigger(param: any): void;
+  updateComment(commentID: number, commentMessage: string): void;
+}) => {
+  const [commentEdited, setEditedComment] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const updateHandler = () => {
+    updateComment(comment.commentID, commentEdited);
+
+    if (commentEdited.length) {
+      renderTrigger(!isEditing);
+    }
+    setEditedComment("");
+    setIsEditing(false);
+  };
   return (
     <div className={styles.commentCardContainer}>
       <div className={styles.commentHeader}>
@@ -12,9 +36,42 @@ const Comment = ({ comment }: { comment: commmentUI }) => {
           </h4>
         </div>
         <div className={styles.commentOptions}>
-          <button>
-            <i className="fa-solid fa-edit"></i>
-          </button>
+          <div className={styles.btnEdit}>
+            <button
+              onClick={() => {
+                setActiveIndex(index);
+                setIsEditing((prev) => !prev);
+              }}
+            >
+              <i className="fa-solid fa-edit"></i>
+            </button>
+            <div
+              className={
+                index === activeIndex && isEditing
+                  ? `${styles.editContainer} ${styles.activeEditContainer}`
+                  : styles.editContainer
+              }
+            >
+              <p>
+                Editing On {comment.userName && comment.userName.split(" ")[0]}{" "}
+                comment
+              </p>
+              <div>
+                <input
+                  type="text"
+                  value={commentEdited}
+                  placeholder="Write Something New"
+                  onChange={(e) => setEditedComment(e.target.value)}
+                />
+                <button
+                  onClick={updateHandler}
+                  className={styles.sendNewCommment}
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
           <button>
             <i className="fa-solid fa-trash"></i>
           </button>

@@ -6,10 +6,12 @@
   display: flex;
   gap: 10px;
   padding: 15px;
+  position: relative;
 }
 
 .content-routes {
   width: 100% !important;
+  position: relative;
 }
 
 button {
@@ -24,4 +26,118 @@ button:active {
 
 table {
   border-radius: 20px !important;
+}
+
+.ovarlay {
+  width: 0px;
+  position: absolute !important;
+  left: 0;
+  top: 0;
+  height: 100vh !important;
+  opacity: 0;
+}
+
+.overlay-active {
+  position: absolute !important;
+  z-index: 10000;
+  background-color: black;
+  height: 100vh;
+  animation: active-overlay 1s forwards ease-in-out;
+}
+
+@keyframes active-overlay {
+  0% {
+    width: 0vw;
+    opacity: 0;
+  }
+  50% {
+    width: 100vw;
+    opacity: 0;
+  }
+  100% {
+    width: 100vw;
+    opacity: 0.5;
+  }
+}
+
+.modal-container {
+  height: 50vh;
+  width: 50%;
+  margin: auto;
+  position: absolute;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  top: 50%;
+  transform: translate(-500%, -50%);
+  z-index: 1000000;
+  border-radius: 10px;
+  padding: 10px;
+  transition: 1.2s ease;
+  .modal-header {
+    width: 100%;
+  }
+  .header-wrapper {
+    display: flex;
+    width: 100% !important;
+    justify-content: space-between;
+    padding: 10px 7px;
+    & h2 {
+      font-size: 18px;
+      color: #006eb7b6;
+    }
+
+    & div {
+      & i {
+        background-color: rgb(208, 208, 208);
+        transition: 0.3s ease;
+        padding: 7px 10px;
+        cursor: pointer;
+        color: white;
+        border-radius: 50%;
+      }
+      & i:hover {
+        color: tomato;
+      }
+    }
+  }
+  .modal-body {
+    width: 75%;
+    height: 170px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    & form {
+      width: 100%;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(1, 1fr);
+
+      .modal-input-container {
+        width: 100%;
+        & input {
+          width: 100%;
+          border-radius: 5px;
+          border: 1px solid #006eb7;
+        }
+
+        & input[name="CommentMessage"] {
+          height: 85px;
+          padding: 10px;
+          border-radius: 5px;
+        }
+        & input[name="EmployeeName"] {
+          padding: 10px;
+        }
+      }
+    }
+  }
+}
+
+.modal-active {
+  transform: translate(-50%, -50%);
 }

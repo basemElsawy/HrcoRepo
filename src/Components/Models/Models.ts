@@ -1,3 +1,5 @@
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+
 interface UserLogin {}
 
 export interface Roles {
@@ -43,6 +45,13 @@ export interface UsersPage {
   pageSize?: number;
   pageCount?: number;
 }
+export interface CommentsPage {
+  totalCount?: number;
+  data?: CommmentUI[];
+  pageSize?: number;
+  pageCount?: number;
+}
+
 export interface GContextModel {
   roles: Roles[];
 }
@@ -67,6 +76,7 @@ export interface PropsForUpdateForm {
 
 export interface GlobalContextData {
   roles: Roles[];
+  isModalActive: boolean;
 }
 
 export interface Comment {
@@ -90,45 +100,44 @@ export interface LoggedInUser {
   userID: string;
 }
 
-export interface paramsForComments {
+export interface ParamsForComments {
   moderatorID: string;
   page: number;
   pageSize: number;
 }
 
-export interface commmentUI {
+export interface CommmentUI {
   adminName: string;
   commentMessage: string;
   createdAt: string;
   moderatorID: string;
   userImage: string;
   userName: string;
+  commentID: number;
 }
 
-/**
- * 
- * 
- * adminName
-: 
-"basem"
-commentMessage
-: 
-"good job"
-createdAt
-: 
-"2024-04-13T15:24:22.9893535"
-employeeCode
-: 
-"1"
-moderatorID
-: 
-"0ecc6bce-4e4f-4542-3531-08dc52f4cbf8"
-userImage
-: 
-"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAA
-userName
-: 
-"Basem Mohamed Abuzaid"
- * 
- * 
- */
+export interface CommentUpdateModel {
+  commentID: number;
+  commentMessage: string;
+}
+
+export interface ModeratorCommentModel {
+  moderatorID: string;
+  searchQuery?: string;
+  page: number;
+  pageSize: number;
+}
+export interface ModalInputs {
+  type: string;
+  placeholder: string;
+  required: boolean;
+  name: string;
+}
+export interface ModalProps {
+  inputs: ModalInputs[];
+  headerText: string;
+  CloseModal(): any;
+  SubmitButton(): void;
+
+  submitButtonText: string;
+}

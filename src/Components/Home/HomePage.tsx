@@ -16,9 +16,9 @@ let shallowUsersPage: UsersPage = {
 };
 
 const HomePage = () => {
+  const dashboardService = new DashboardService();
   const [users, setUsers] = useState<Users[]>([]);
   const [allUsersPageData, setPageData] = useState<UsersPage>(shallowUsersPage);
-  const dashboardService = new DashboardService();
 
   const [isCommenting, setCommentState] = useState<boolean>(false);
   const [activeCommentIdx, setActiveComment] = useState<number>();
