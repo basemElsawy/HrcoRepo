@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import styles from "./AllComments.module.css";
 import image from "../../assets/Unknown_person.jpg";
-import { CommmentUI } from "../Models/Models";
-import { ToastContainer, toast } from "react-toastify";
+import { CommmentUI, DeleteCommentBody } from "../Models/Models";
 
 const Comment = ({
   comment,
   index,
   updateComment,
-  renderTrigger,
+  deleteHandler,
 }: {
   comment: CommmentUI;
   index: number;
-  renderTrigger(param: any): void;
+  deleteHandler(deleteCommentBody: DeleteCommentBody): void;
+
   updateComment(commentID: number, commentMessage: string): void;
 }) => {
   const [commentEdited, setEditedComment] = useState<string>("");
@@ -21,12 +21,15 @@ const Comment = ({
   const updateHandler = () => {
     updateComment(comment.commentID, commentEdited);
 
-    if (commentEdited.length) {
-      renderTrigger(!isEditing);
-    }
     setEditedComment("");
     setIsEditing(false);
   };
+
+  const deleteCommentHandler = (commentID: number) => {
+    let deleteCommentBody: DeleteCommentBody = { commentID };
+    deleteHandler(deleteCommentBody);
+  };
+
   return (
     <div className={styles.commentCardContainer}>
       <div className={styles.commentHeader}>
@@ -72,7 +75,7 @@ const Comment = ({
               </div>
             </div>
           </div>
-          <button>
+          <button onClick={() => deleteCommentHandler(comment.commentID)}>
             <i className="fa-solid fa-trash"></i>
           </button>
         </div>

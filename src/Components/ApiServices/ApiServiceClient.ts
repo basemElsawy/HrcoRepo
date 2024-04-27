@@ -49,6 +49,32 @@ export class ApiClient {
       body,
     });
   }
+  async delete<DeleteRequestBody>(
+    url: string,
+    params?: DeleteRequestBody | any
+  ) {
+    if (!params) {
+      return await fetch(this.baseURL + url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+    } else {
+      let urlParams: URLSearchParams = new URLSearchParams(params);
+
+      let newURL = `${url}?${urlParams}`;
+
+      return await fetch(this.baseURL + newURL, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+    }
+  }
 }
 
 export default ApiClient;

@@ -127,17 +127,28 @@ export interface ModeratorCommentModel {
   page: number;
   pageSize: number;
 }
+export interface ModalSelectOptions {
+  id: number;
+  option: string;
+  value: string;
+}
 export interface ModalInputs {
   type: string;
   placeholder: string;
   required: boolean;
   name: string;
+  isSelectInput: boolean;
+  selectOptions?: ModalSelectOptions[];
 }
 export interface ModalProps {
   inputs: ModalInputs[];
+
   headerText: string;
   CloseModal(): any;
-  SubmitButton(): void;
+  SubmitButton(body: any): void;
 
   submitButtonText: string;
+}
+export interface DeleteCommentBody {
+  commentID: number;
 }

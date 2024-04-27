@@ -43,6 +43,30 @@ class CommentsService {
       console.log(err);
     }
   }
+  public async addCommentToUser(body: Comment) {
+    try {
+      let data = await this._apiService.post(
+        "/api/Comments/setComment",
+        JSON.stringify(body)
+      );
+
+      return data.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  public async deleteComment<DeleteHandlerBody>(body: DeleteHandlerBody) {
+    try {
+      let data = await this._apiService.delete(
+        "/api/Comments/deleteComment",
+        body
+      );
+
+      return data.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default CommentsService;
