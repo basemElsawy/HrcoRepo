@@ -29,6 +29,7 @@
 
 .nav_container {
   & ul {
+    padding: 0 !important;
     display: flex;
     flex-direction: column;
     gap: 25px;

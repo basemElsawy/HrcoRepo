@@ -11,8 +11,6 @@ import {
   ModalInputs,
   ModalProps,
   ModeratorCommentModel,
-  ParamsForComments,
-  UsersPage,
 } from "../Models/Models";
 import { ToastContainer, toast } from "react-toastify";
 import image from "../../assets/9315312.jpg";
@@ -61,11 +59,77 @@ const AllComments = () => {
     });
   };
 
-  function searchHandler(e: ChangeEvent<HTMLInputElement>) {
+  async function searchHandler(e: ChangeEvent<HTMLInputElement>) {
     setIsLoading(true);
     setTimeout(() => {
-      setSearchQuery(e.target.value);
+      getSearchedComments(e.target.value);
     }, 1500);
+  }
+
+  function getAdminComments() {
+    let param: ModeratorCommentModel = {
+      moderatorID,
+      pageSize,
+      page: currentPage,
+    };
+    commentService
+      .getSearchedComments("/api/Comments/getAdminComment", param)
+      .then((res: CommentsPage) => {
+        setPage(res);
+        setComments(res?.data);
+      })
+      .finally(() => {
+        if (paging?.data) {
+          setToast(true);
+          toast("Comments Successfully Retrieved");
+        }
+
+        setToast(false);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function getSearchedComments(searchQuery: string) {
+    let params: ModeratorCommentModel = {
+      moderatorID: moderatorID,
+      searchQuery,
+      page: currentPage,
+      pageSize,
+    };
+    if (searchQuery.length) {
+      return commentService
+        .getSearchedComments(
+          "/api/Comments/adminSearchComments",
+
+          params
+        )
+        .then((res: CommentsPage) => {
+          setPage(res);
+          setComments(res?.data);
+        })
+        .finally(() => {
+          if (search.length) {
+            if (paging?.data) {
+              setToast(true);
+              toast("Comments Successfully Retrieved");
+              toast(
+                paging?.data
+                  ? "Searched Comment Successfully Retrieved"
+                  : "No Comment found"
+              );
+            }
+          }
+
+          setToast(false);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    return getAdminComments();
   }
 
   function editSpecificComment(
@@ -77,8 +141,6 @@ const AllComments = () => {
       return;
     }
 
-    setRenderHandler((prev: any) => prev + 1);
-
     let patchCommentBody: CommentUpdateModel = {
       commentID,
       commentMessage,
@@ -89,53 +151,16 @@ const AllComments = () => {
         JSON.stringify(patchCommentBody)
       )
       .then((res) => {
+        getAdminComments();
+
         // toast("Comment was successfully edited");
       });
   }
 
   useEffect(() => {
     setIsLoading(true);
-    let params: ModeratorCommentModel = search.length
-      ? {
-          moderatorID: moderatorID,
-          searchQuery: search,
-          page: currentPage,
-          pageSize,
-        }
-      : { moderatorID, pageSize, page: currentPage };
-
-    commentService
-      .getSearchedComments(
-        params.searchQuery?.length
-          ? "/api/Comments/adminSearchComments"
-          : "/api/Comments/getAdminComment",
-        params
-      )
-      .then((res: CommentsPage) => {
-        setPage(res);
-        setComments(res?.data);
-      })
-      .finally(() => {
-        if (!params?.searchQuery && paging?.data) {
-          setToast(true);
-          toast("Comments Successfully Retrieved");
-        }
-        if (params?.searchQuery) {
-          setToast(true);
-          toast(
-            paging?.data
-              ? "Searched Comment Successfully Retrieved"
-              : "No Comment found"
-          );
-        }
-        setToast(false);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log(renderHandler);
-  }, [renderHandler, search.length, currentPage, globalRender]);
+    getAdminComments();
+  }, [currentPage]);
 
   function closeModalHandler(): void {
     setActiveModal(false);
@@ -199,6 +224,7 @@ const AllComments = () => {
   }
 
   function deleteCommentHandler(body: DeleteCommentBody) {
+    setIsLoading(true);
     commentService
       .deleteComment(body)
       .then((res) => {
@@ -206,6 +232,8 @@ const AllComments = () => {
         if (res.comment) {
           setToast(true);
           toast("Comment was deleted successfully");
+
+          getAdminComments();
         } else {
           setToast(true);
           toast("Comment was not deleted due to param error");
@@ -213,6 +241,7 @@ const AllComments = () => {
       })
       .finally(() => {
         setToast(false);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);

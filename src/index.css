@@ -8,5 +8,26 @@
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
+}
+body {
+  overflow: hidden !important;
+}
+
+p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.text-small {
+  font-size: 12px !important;
+  border: none !important;
+}
+
+.text-small:active {
+  scale: 1 !important;
+}
+
+.text-small.active-btn {
+  background-color: #448efd !important;
 }

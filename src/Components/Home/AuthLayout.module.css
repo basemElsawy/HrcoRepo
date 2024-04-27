@@ -5,9 +5,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 }
 .top_content {
-  height: calc(45vh -30px);
+  height: calc(100vh - 30px - 50%);
   display: flex;
   width: 100%;
   gap: 10px;
@@ -17,8 +18,13 @@
 .progress {
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.206);
   flex: 1;
-  height: fit-content;
+  height: calc(73vh - 30px - 50%);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  /* padding: 15px; */
   /* background-color: black; */
 }
 
@@ -26,8 +32,15 @@
   flex: 1;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.206);
   border-radius: 10px;
-  /* padding: 10px; */
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  justify-content: space-between;
+
+  /* padding: 5px; */
+
+  height: calc(73vh - 30px - 50%);
 }
 
 .bottom_content {
@@ -251,4 +264,13 @@
 }
 .activeComment {
   transform: scale(1);
+}
+
+.reqBtn {
+  position: absolute;
+  right: -10px;
+  top: -15px;
+  font-weight: bold !important;
+  background-color: #006eb7 !important;
+  border-radius: 0px 0px 0px 10px !important;
 }

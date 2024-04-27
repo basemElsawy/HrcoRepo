@@ -8,6 +8,9 @@ import DashboardService from "../ApiServices/DashboardService";
 import { Comment, LoggedInUser, Users, UsersPage } from "../Models/Models";
 import unknown from "../../assets/Unknown_person.jpg";
 import EmployeesService from "../ApiServices/EmployeesService";
+import { Offcanvas } from "react-bootstrap";
+import RequestsComponent from "./RequestsComponent";
+
 let shallowUsersPage: UsersPage = {
   totalCount: 0,
   data: [],
@@ -19,7 +22,7 @@ const HomePage = () => {
   const dashboardService = new DashboardService();
   const [users, setUsers] = useState<Users[]>([]);
   const [allUsersPageData, setPageData] = useState<UsersPage>(shallowUsersPage);
-
+  const [offCanvasState, SetOffCanvasState] = useState<boolean>(false);
   const [isCommenting, setCommentState] = useState<boolean>(false);
   const [activeCommentIdx, setActiveComment] = useState<number>();
   const [comment, setComment] = useState<string>("");
@@ -67,6 +70,28 @@ const HomePage = () => {
 
   return (
     <section className={styles.section_container}>
+      <div
+        className={
+          "btn btn-primary d-flex justify-content-between align-items-center gap-3 " +
+          styles.reqBtn
+        }
+        onClick={() => SetOffCanvasState(true)}
+      >
+        <i className="fa-solid fa-bullhorn"></i>
+        <p>Requests</p>
+      </div>
+      <Offcanvas
+        placement={"end"}
+        show={offCanvasState}
+        onHide={() => SetOffCanvasState(false)}
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>All Requests</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <RequestsComponent />
+        </Offcanvas.Body>
+      </Offcanvas>
       <ToastContainer />
       <div className={styles.top_content}>
         <div className={styles.progress}>

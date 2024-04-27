@@ -33,7 +33,7 @@ class CommentsService {
 
   public async getSearchedComments(
     apiName: string,
-    body: ModeratorCommentModel | ParamsForComments
+    body?: ModeratorCommentModel | ParamsForComments | { moderatorID: string }
   ) {
     try {
       let data = await this._apiService.get(apiName, body);
