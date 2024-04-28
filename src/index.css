@@ -35,3 +35,7 @@ p {
 i.fa-circle-info {
   border: 1px solid black;
 }
+
+.bg-primary {
+  background-color: #033f98 !important;
+}

@@ -46,7 +46,7 @@ export class ApiClient {
         Accept: "application/json",
       },
 
-      body,
+      body: JSON.stringify(body),
     });
   }
   async delete<DeleteRequestBody>(

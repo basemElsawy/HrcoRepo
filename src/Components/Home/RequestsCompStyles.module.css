@@ -7,3 +7,55 @@
   margin: 5px;
   background-color: black;
 }
+
+.img_container {
+  width: 30px;
+  & img {
+    border-radius: 50%;
+    width: 100%;
+    aspect-ratio: 1;
+  }
+}
+
+.empName {
+  & h5 {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    width: max-content;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  & p {
+    font-size: 12px;
+    color: grey;
+    font-weight: 600;
+  }
+}
+
+.ignoreBtn {
+  & button {
+    padding: 5px 10px !important;
+
+    font-size: 10px !important;
+  }
+}
+
+.request_container {
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.section_body {
+  text-align: left !important;
+  & p {
+    text-transform: capitalize;
+    color: grey;
+    font-weight: 500 !important;
+    font-size: 12px !important;
+  }
+}
+
+.approved {
+  & p {
+    font-size: 14px !important;
+  }
+}

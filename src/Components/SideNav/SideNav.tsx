@@ -40,7 +40,7 @@ const SideNav = ({ navigator }: any) => {
                 </Link>
               );
             })}
-            <li>
+            <li className="bg-primary text-white ">
               <div
                 onClick={() => setRequests(true)}
                 className={styles.routeContainer}

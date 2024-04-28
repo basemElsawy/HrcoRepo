@@ -78,7 +78,6 @@ const EditForm = (props: PropsForUpdateForm) => {
         data[key] = null;
       }
     }
-    console.log(data.RoleID);
 
     nullifiedData = { ...data, image: toBase64, RoleID: role };
 

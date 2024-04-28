@@ -12,6 +12,8 @@ import { Offcanvas, PaginationProps } from "react-bootstrap";
 import RequestsComponent from "./RequestsComponent";
 import { mainContext } from "../GlobalContext/globalContext";
 import RequestsService from "../ApiServices/RequestsService";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 let shallowUsersPage: UsersPage = {
   totalCount: 0,
   data: [],
@@ -26,11 +28,13 @@ const HomePage = () => {
   const [allUsersPageData, setPageData] = useState<UsersPage>(shallowUsersPage);
   const { requestsSidePanel, setRequests, setNotificationCount } =
     useContext<any>(mainContext);
+  const [sidePanelLoading, setSidePanelLoading] = useState<boolean>(false);
   const [isCommenting, setCommentState] = useState<boolean>(false);
   const [activeCommentIdx, setActiveComment] = useState<number>();
   const [comment, setComment] = useState<string>("");
   const [notification, notificationSetter] = useState<number>(0);
   const [reqData, setReqData] = useState<any>({});
+  const [reqDataPage, setReqDataPage] = useState<number>(1);
   let pageSize: number = 5;
   let pageSizeReq: number = 6;
   const activateCommentWindow = (idx: number) => {
@@ -39,16 +43,22 @@ const HomePage = () => {
   };
   function getUsersRequests() {
     let paging = { pageSize: pageSizeReq, page: 1 };
+
+    setSidePanelLoading(true);
     requestsService
-      .getEmployeesRequests(paging)
+      .getEmployeesRequests("/api/Request/getAllNoActionRequests", paging)
       .then((res: any) => {
-        if (res.data) {
+        if (res?.data) {
           setNotificationCount(res.data.length);
           setReqData(res);
+          setSidePanelLoading(false);
         }
       })
       .catch((err) => {
-        -console.log(err);
+        if (err) {
+          setReqData({});
+        }
+        console.log(err);
       });
   }
 
@@ -91,18 +101,89 @@ const HomePage = () => {
     });
   }, [0]);
 
+  function getRequestsByDate(e: any) {
+    let param = {
+      dateRange: e.target.value,
+      page: reqDataPage,
+      pageSize: pageSizeReq,
+    };
+    setSidePanelLoading(true);
+    requestsService
+      .employeeRequestsByDateRange(param)
+      .then((res) => {
+        if (res?.data) {
+          setNotificationCount(res.data.length);
+          setReqData(res);
+          setSidePanelLoading(false);
+        } else {
+          setSidePanelLoading(false);
+          setReqData({});
+        }
+      })
+      .catch((error) => {
+        if (error) {
+        }
+        console.log(error);
+      });
+  }
+  function getSubmitted() {
+    let param = { page: reqDataPage, pageSize: pageSizeReq };
+    setSidePanelLoading(true);
+    requestsService
+      .getEmployeesRequests("/api/Request/getAllSubmittedRequests", param)
+      .then((res) => {
+        if (res.data) {
+          setNotificationCount(res.data.length);
+          setReqData(res);
+          setSidePanelLoading(false);
+        } else {
+          setSidePanelLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  function ignoreRequestHandler(reqID: string | number) {}
+  function getIgnored() {
+    let param = { page: reqDataPage, pageSize: pageSizeReq };
+    setSidePanelLoading(true);
+    requestsService
+      .getEmployeesRequests("/api/Request/getAllIgnoredRequests", param)
+      .then((res) => {
+        if (res.data) {
+          setNotificationCount(res.data.length);
+          setReqData(res);
+          setSidePanelLoading(false);
+        } else {
+          setSidePanelLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function updateStateOfRequest(reqID: string | number) {
+    let body = { approvedByManager: true, approvedByHr: true };
+    //
+    requestsService
+      .updateEmployeesRequest(
+        `/api/Request/updateRequestState?reqID=${reqID}`,
+        body
+      )
+      .then((res) => {
+        if (res) {
+          getUsersRequests();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <section className={styles.section_container}>
-      <div
-        className={
-          "btn btn-primary d-flex justify-content-between align-items-center gap-3 " +
-          styles.reqBtn
-        }
-      >
-        <div className="small-num">{notification}</div>
-        <i className="fa-solid fa-bullhorn"></i>
-        <p>Requests</p>
-      </div>
       <Offcanvas
         placement={"start"}
         show={requestsSidePanel}
@@ -112,7 +193,94 @@ const HomePage = () => {
           <Offcanvas.Title>All Requests</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <RequestsComponent reqData={reqData?.data} />
+          <div
+            className={
+              "d-flex  align-items-start w-100 justify-content-between flex-column " +
+              styles.offcanvas_header
+            }
+          >
+            <div className="text-muted text-small d-flex  justify-content-start align-items-center gap-2">
+              <div className="mx-1 py-1 ">Filter Requests By</div>
+            </div>
+            <div className="d-flex w-100 align-flex just-content-between btn-group ">
+              <button
+                onClick={getUsersRequests}
+                value={"30"}
+                className="btn btn-primary text-small "
+              >
+                All
+              </button>
+              <button
+                onClick={getRequestsByDate}
+                value={"30"}
+                className="btn btn-primary text-small "
+              >
+                Month
+              </button>
+              <button
+                onClick={getRequestsByDate}
+                value={"7"}
+                className="btn btn-primary text-small"
+              >
+                Week
+              </button>
+              <button
+                onClick={getRequestsByDate}
+                value={"24"}
+                className="btn btn-primary text-small"
+              >
+                Day
+              </button>
+              <OverlayTrigger
+                placement="top"
+                overlay={(props: any) => (
+                  <Tooltip id="button-tooltip" {...props}>
+                    Submitted Requests
+                  </Tooltip>
+                )}
+              >
+                <button
+                  onClick={getSubmitted}
+                  className="btn btn-primary text-small"
+                >
+                  <i className="fa-solid fa-check"></i>
+                </button>
+              </OverlayTrigger>
+              <OverlayTrigger
+                placement="top"
+                overlay={(props: any) => (
+                  <Tooltip id="button-tooltip" {...props}>
+                    Ignored Requests
+                  </Tooltip>
+                )}
+              >
+                <button
+                  onClick={getIgnored}
+                  className="btn btn-primary text-small"
+                >
+                  <i className="fa-solid fa-dumpster"></i>
+                </button>
+              </OverlayTrigger>
+            </div>
+          </div>
+          <div>
+            {reqData?.data ? (
+              !sidePanelLoading ? (
+                <RequestsComponent
+                  reqData={reqData?.data}
+                  updateState={updateStateOfRequest}
+                  ignoreRequest={ignoreRequestHandler}
+                  getDataByDate={getRequestsByDate}
+                />
+              ) : (
+                <div className={"my-5 py-5 " + styles.loaderContainer}>
+                  <div className={styles.loader}></div>
+                </div>
+              )
+            ) : (
+              <div className="px-1 my-5 m-1">No Requests Found</div>
+            )}
+          </div>
         </Offcanvas.Body>
       </Offcanvas>
       <ToastContainer />
