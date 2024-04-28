@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./RequestsCompStyles.module.css";
 const Request = (props: any) => {
   return (
-    <section className={styles.request_wrapper}>
+    <section className={"d-flex w-100 " + styles.request_wrapper}>
       <div
         className={
           "d-flex justify-content-between align-items-center " +

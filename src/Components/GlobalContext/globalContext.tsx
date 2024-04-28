@@ -27,6 +27,8 @@ const GlobalContext = ({ children }: any) => {
   const [globalRender, setGlobalRender] = useState<number>(0);
   const [modalObject, setModalObject] = useState(shallowModalProps);
   const [allUsersData, setAllUsers] = useState<ModalSelectOptions[]>([]);
+  const [requestsSidePanel, setRequests] = useState<boolean>(false);
+  const [notificationCount, setNotificationCount] = useState<number>(0);
   useEffect(() => {
     apiService
       .GetMethod("/api/Authentication/getAllRoles")
@@ -66,6 +68,10 @@ const GlobalContext = ({ children }: any) => {
     allUsersData,
     globalRender,
     setGlobalRender,
+    requestsSidePanel,
+    setRequests,
+    setNotificationCount,
+    notificationCount,
   };
 
   return (

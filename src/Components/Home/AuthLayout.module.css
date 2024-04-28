@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: space-between;
+  justify-content: space-evenly;
   /* padding: 15px; */
   /* background-color: black; */
 }
@@ -36,7 +36,7 @@
   flex-direction: column;
   align-items: stretch;
 
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   /* padding: 5px; */
 
@@ -56,7 +56,8 @@
   text-align: center;
   & img {
     width: 60%;
-    height: 150px;
+    height: 20vh;
+
     /* aspect-ratio: 3.5/ 1; */
   }
 }
@@ -67,7 +68,8 @@
   text-align: center;
   & img {
     width: 100%;
-    height: 160px;
+    height: 20vh;
+
     /* aspect-ratio: 3.5/ 1; */
   }
 }
@@ -270,7 +272,7 @@
   position: absolute;
   right: -10px;
   top: -15px;
-  font-weight: bold !important;
+  font-size: 21px !important;
   background-color: #006eb7 !important;
   border-radius: 0px 0px 0px 10px !important;
 }

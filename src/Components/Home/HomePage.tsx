@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import styles from "./AuthLayout.module.css";
 import section1Pic from "../../assets/comments.png";
 import section2Pic from "../../assets/chart.png";
@@ -8,9 +8,10 @@ import DashboardService from "../ApiServices/DashboardService";
 import { Comment, LoggedInUser, Users, UsersPage } from "../Models/Models";
 import unknown from "../../assets/Unknown_person.jpg";
 import EmployeesService from "../ApiServices/EmployeesService";
-import { Offcanvas } from "react-bootstrap";
+import { Offcanvas, PaginationProps } from "react-bootstrap";
 import RequestsComponent from "./RequestsComponent";
-
+import { mainContext } from "../GlobalContext/globalContext";
+import RequestsService from "../ApiServices/RequestsService";
 let shallowUsersPage: UsersPage = {
   totalCount: 0,
   data: [],
@@ -20,18 +21,40 @@ let shallowUsersPage: UsersPage = {
 
 const HomePage = () => {
   const dashboardService = new DashboardService();
+  const requestsService = new RequestsService();
   const [users, setUsers] = useState<Users[]>([]);
   const [allUsersPageData, setPageData] = useState<UsersPage>(shallowUsersPage);
-  const [offCanvasState, SetOffCanvasState] = useState<boolean>(false);
+  const { requestsSidePanel, setRequests, setNotificationCount } =
+    useContext<any>(mainContext);
   const [isCommenting, setCommentState] = useState<boolean>(false);
   const [activeCommentIdx, setActiveComment] = useState<number>();
   const [comment, setComment] = useState<string>("");
+  const [notification, notificationSetter] = useState<number>(0);
+  const [reqData, setReqData] = useState<any>({});
   let pageSize: number = 5;
-
+  let pageSizeReq: number = 6;
   const activateCommentWindow = (idx: number) => {
     setActiveComment(idx);
     setCommentState(true);
   };
+  function getUsersRequests() {
+    let paging = { pageSize: pageSizeReq, page: 1 };
+    requestsService
+      .getEmployeesRequests(paging)
+      .then((res: any) => {
+        if (res.data) {
+          setNotificationCount(res.data.length);
+          setReqData(res);
+        }
+      })
+      .catch((err) => {
+        -console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    getUsersRequests();
+  }, []);
 
   const sendCommentHandler = (empCode: string) => {
     let admin: LoggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
@@ -75,21 +98,21 @@ const HomePage = () => {
           "btn btn-primary d-flex justify-content-between align-items-center gap-3 " +
           styles.reqBtn
         }
-        onClick={() => SetOffCanvasState(true)}
       >
+        <div className="small-num">{notification}</div>
         <i className="fa-solid fa-bullhorn"></i>
         <p>Requests</p>
       </div>
       <Offcanvas
-        placement={"end"}
-        show={offCanvasState}
-        onHide={() => SetOffCanvasState(false)}
+        placement={"start"}
+        show={requestsSidePanel}
+        onHide={() => setRequests(false)}
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>All Requests</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <RequestsComponent />
+          <RequestsComponent reqData={reqData?.data} />
         </Offcanvas.Body>
       </Offcanvas>
       <ToastContainer />

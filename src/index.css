@@ -31,3 +31,7 @@ p {
 .text-small.active-btn {
   background-color: #448efd !important;
 }
+
+i.fa-circle-info {
+  border: 1px solid black;
+}

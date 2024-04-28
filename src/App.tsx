@@ -11,13 +11,27 @@ import GlobalContext, {
 import ShowEmployees from "./Components/ShowEmployees/ShowEmployees.js";
 import EditComponent from "./Components/EditOnEmployees/EditComponent.js";
 import AllComments from "./Components/AllComments/AllComments.js";
-
+import { jwtDecode } from "jwt-decode";
 import Modal from "./Components/Modal/Modal.js";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 function App(props: any) {
   const navigate = useNavigate();
   const employeeState: boolean = true;
   const { modalObject }: any = useContext(mainContext);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const token = JSON.parse(localStorage.getItem("token") || "");
+      const decodedToken = jwtDecode(token);
+      const nowDate = Math.floor(Date.now() / 1000);
+      // console.log(decodedToken.exp);
+      let isExpired = decodedToken.exp && decodedToken?.exp < nowDate;
+      if (isExpired) {
+        localStorage.clear();
+      }
+    }
+  }, []);
+
   return (
     <>
       <Modal {...modalObject} />

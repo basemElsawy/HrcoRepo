@@ -1,0 +1,9 @@
+.section_container::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 20px;
+  background-color: rgb(207, 207, 207);
+}
+.section_container::-webkit-scrollbar-thumb {
+  margin: 5px;
+  background-color: black;
+}

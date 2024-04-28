@@ -10,7 +10,7 @@ export interface Roles {
 export interface Routes {
   id: number;
   route: string;
-  routeName: string;
+  routeName?: string;
   icon: string;
 }
 export interface Role {

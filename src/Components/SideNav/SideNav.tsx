@@ -5,7 +5,12 @@ import { Routes } from "../Models/Models";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { mainContext } from "../GlobalContext/globalContext";
 const SideNav = ({ navigator }: any) => {
+  const [notification, notificationSetter] = useState<number>(0);
+  const [offCanvasState, SetOffCanvasState] = useState<boolean>(false);
+  const { setRequests, notificationCount } = useContext<any>(mainContext);
   const logout = () => {
     localStorage.clear();
     toast("logged out succesfully");
@@ -35,6 +40,18 @@ const SideNav = ({ navigator }: any) => {
                 </Link>
               );
             })}
+            <li>
+              <div
+                onClick={() => setRequests(true)}
+                className={styles.routeContainer}
+              >
+                <div className={styles.small_num}>{notificationCount}</div>
+                <i className="fa-solid fa-bullhorn"></i>
+                <div className={styles.routeName}>
+                  <p>Requests</p>
+                </div>
+              </div>
+            </li>
           </ul>
         </nav>
       </div>
