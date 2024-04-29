@@ -45,7 +45,10 @@ const SideNav = ({ navigator }: any) => {
                 onClick={() => setRequests(true)}
                 className={styles.routeContainer}
               >
-                <div className={styles.small_num}>{notificationCount}</div>
+                <div className={notification ? styles.small_num : "d-none"}>
+                  {notificationCount}
+                </div>
+
                 <i className="fa-solid fa-bullhorn"></i>
                 <div className={styles.routeName}>
                   <p>Requests</p>

@@ -39,3 +39,16 @@ i.fa-circle-info {
 .bg-primary {
   background-color: #033f98 !important;
 }
+
+.p-icon {
+  color: white !important;
+  border-radius: 0px 5px 5px 0px !important;
+}
+.p-button-icon-only {
+  background-color: #033f98;
+  border-radius: 0px 5px 5px 0px !important;
+}
+.p-inputtext {
+  padding: 7px 18px;
+  font-size: 12px;
+}

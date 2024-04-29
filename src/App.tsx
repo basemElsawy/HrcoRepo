@@ -14,6 +14,10 @@ import AllComments from "./Components/AllComments/AllComments.js";
 import { jwtDecode } from "jwt-decode";
 import Modal from "./Components/Modal/Modal.js";
 import { useContext, useEffect } from "react";
+import SidePanel from "./Components/requestsPanel/sidePanel.js";
+import ProgressComp from "./Components/ProgressComponent/ProgressComp.js";
+import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 function App(props: any) {
   const navigate = useNavigate();
   const employeeState: boolean = true;
@@ -34,33 +38,37 @@ function App(props: any) {
 
   return (
     <>
-      <Modal {...modalObject} />
-      <ProtectedRoute>
-        <main className="main-content">
-          <div>
-            <SideNav navigator={navigate} />
-          </div>
+      <PrimeReactProvider>
+        <SidePanel />
+        <Modal {...modalObject} />
+        <ProtectedRoute>
+          <main className="main-content">
+            <div>
+              <SideNav navigator={navigate} />
+            </div>
 
-          <div className="content-routes">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/employees" element={<ShowEmployees />} />
-              <Route
-                path="/Edit/:id"
-                element={<EditComponent isNewEmployee={!employeeState} />}
-              />
-              <Route
-                path="/Edit"
-                element={<EditComponent isNewEmployee={employeeState} />}
-              />
-              <Route path="/comments" element={<AllComments />} />
-            </Routes>
-          </div>
-        </main>
-      </ProtectedRoute>
-      <Routes>
-        <Route path="/login" element={<LoginComp navigate={navigate} />} />
-      </Routes>
+            <div className="content-routes">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/employees" element={<ShowEmployees />} />
+                <Route
+                  path="/Edit/:id"
+                  element={<EditComponent isNewEmployee={!employeeState} />}
+                />
+                <Route
+                  path="/Edit"
+                  element={<EditComponent isNewEmployee={employeeState} />}
+                />
+                <Route path="/comments" element={<AllComments />} />
+                <Route path="/progress" element={<ProgressComp />} />
+              </Routes>
+            </div>
+          </main>
+        </ProtectedRoute>
+        <Routes>
+          <Route path="/login" element={<LoginComp navigate={navigate} />} />
+        </Routes>
+      </PrimeReactProvider>
     </>
   );
 }

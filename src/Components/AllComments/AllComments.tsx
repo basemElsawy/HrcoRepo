@@ -260,10 +260,7 @@ const AllComments = () => {
             />
             <i className="fa-solid fa-search"></i>
           </div>
-          <button>
-            <p>Oldest</p>
-            <i className="fa-solid fa-filter"></i>
-          </button>
+
           <button onClick={addNewComment}>Add New</button>
         </div>
       </div>

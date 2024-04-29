@@ -32,11 +32,11 @@ const Comment = ({
 
   return (
     <div className={styles.commentCardContainer}>
-      <div className={styles.commentHeader}>
+      <div className={"align-items-center " + styles.commentHeader}>
         <div>
-          <h4>
+          <h6 className="p-0 m-0 fw-bold">
             Created By {comment.adminName && comment.adminName.split(" ")[0]}
-          </h4>
+          </h6>
         </div>
         <div className={styles.commentOptions}>
           <div className={styles.btnEdit}>
@@ -94,7 +94,13 @@ const Comment = ({
           <div className={styles.employeeImg}>
             <img src={comment.userImage ? comment.userImage : image} alt="" />
           </div>
-          <div className={styles.employeeName}>{comment.userName}</div>
+          <div className={"fw-lighter " + styles.employeeName}>
+            {comment?.userName &&
+              comment.userName
+                .split(" ")
+                .map((name, idx) => (idx < 2 ? name : " "))
+                .join(" ")}
+          </div>
         </div>
         <div className={styles.commentDate}>{comment.createdAt}</div>
       </div>
