@@ -135,3 +135,33 @@
   justify-content: center;
   align-items: center;
 }
+.navItem {
+  overflow: hidden !important;
+  border-radius: 3px !important;
+}
+
+.navItem::after {
+  content: "";
+  width: 0;
+  height: 3px;
+  background: #0083db;
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  transition: 0.3s ease-in-out;
+  border-radius: 10%;
+}
+
+.activeNav .navItem::after {
+  width: 100%;
+}
+
+.activeNav .navItem {
+  * {
+    color: #0083db;
+  }
+}
+
+a {
+  transition: 0.3s ease !important;
+}

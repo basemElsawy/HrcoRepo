@@ -3,6 +3,7 @@ import styles from "./Progress.module.css";
 import { Calendar } from "primereact/calendar";
 import ProgressEmp from "./ProgressEmp";
 import ProgressService from "../ApiServices/Progress";
+import { ProgressEditBody, ProgressItem } from "../Models/Models";
 
 const ProgressComp = () => {
   const progressService: ProgressService = new ProgressService();
@@ -25,6 +26,19 @@ const ProgressComp = () => {
         } else {
         }
         return res;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function updateValue(progressItems: ProgressItem[], quarterID: number) {
+    let body: ProgressEditBody = { progress: progressItems };
+    let apiName: string = `/api/Progress/UpdateCertainEmpProgress?quarterID=${quarterID}`;
+    progressService
+      .updateCertainProgress(apiName, body)
+      .then((res) => {
+        console.log(res);
       })
       .catch((error) => {
         console.log(error);
@@ -77,8 +91,12 @@ const ProgressComp = () => {
       <div className={styles.body_container}>
         <div className={"px-4 py-2 gap-2 " + styles.progressContainer}>
           {progressData.length ? (
-            progressData.map((progressItem) => (
-              <ProgressEmp item={progressItem} />
+            progressData.map((progressItem, idx) => (
+              <ProgressEmp
+                key={idx}
+                item={progressItem}
+                updateValue={updateValue}
+              />
             ))
           ) : (
             <div

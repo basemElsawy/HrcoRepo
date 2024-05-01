@@ -154,3 +154,8 @@
   justify-content: center;
   transform: translateY(-50%);
 }
+
+.saveChanges {
+  font-size: 10px;
+  font-weight: bold;
+}

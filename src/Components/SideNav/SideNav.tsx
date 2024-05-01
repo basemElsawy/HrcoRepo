@@ -4,7 +4,7 @@ import { appRoutes } from "./ReactRoutes";
 import { Routes } from "../Models/Models";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { mainContext } from "../GlobalContext/globalContext";
 const SideNav = ({ navigator }: any) => {
@@ -28,8 +28,16 @@ const SideNav = ({ navigator }: any) => {
           <ul>
             {appRoutes.map((route: Routes) => {
               return (
-                <Link key={route.id} to={route.route}>
-                  <li>
+                <NavLink
+                  key={route.id}
+                  to={route.route}
+                  className={({ isActive }) =>
+                    isActive
+                      ? styles.activeNav + " position-relative"
+                      : " position-relative"
+                  }
+                >
+                  <li className={styles.navItem}>
                     <div className={styles.routeContainer}>
                       <i className={route.icon}></i>
                       <div className={styles.routeName}>
@@ -37,7 +45,7 @@ const SideNav = ({ navigator }: any) => {
                       </div>
                     </div>
                   </li>
-                </Link>
+                </NavLink>
               );
             })}
             <li className="bg-primary text-white ">

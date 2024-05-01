@@ -152,3 +152,18 @@ export interface ModalProps {
 export interface DeleteCommentBody {
   commentID: number;
 }
+
+export interface ProgressItem {
+  progressName: string;
+  progressValue: number;
+}
+export interface ProgressEntity {
+  progressID: number;
+  progressName: string;
+  progressValue: number;
+  quarterEvaluationId: number;
+}
+
+export interface ProgressEditBody {
+  progress: ProgressItem[];
+}

@@ -49,6 +49,17 @@ export class ApiClient {
       body: JSON.stringify(body),
     });
   }
+  async put<PatchRequestBody>(url: string, body: PatchRequestBody | any) {
+    return await fetch(this.baseURL + url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+
+      body: JSON.stringify(body),
+    });
+  }
   async delete<DeleteRequestBody>(
     url: string,
     params?: DeleteRequestBody | any
