@@ -129,6 +129,7 @@ export interface ModeratorCommentModel {
 }
 export interface ModalSelectOptions {
   id: number;
+  userID: string;
   option: string;
   value: string;
 }
@@ -166,4 +167,13 @@ export interface ProgressEntity {
 
 export interface ProgressEditBody {
   progress: ProgressItem[];
+}
+
+export interface QuarterEvaluation {
+  currentYear: string;
+  from: string;
+  to: string;
+  progress: ProgressItem[];
+  userID: string;
+  moderatorID: string;
 }

@@ -1,0 +1,37 @@
+.sectionContainer {
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2) !important;
+}
+.headline h2 {
+  color: #006eb7 !important;
+}
+
+.userImage {
+  width: 100px;
+  overflow: hidden;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  & img {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+}
+
+.formContainer {
+  width: 75%;
+  margin: auto;
+  & form {
+    width: 100%;
+  }
+}
+
+.inputs_container {
+  & div {
+    flex: 1;
+  }
+}
+.progressContainer {
+  display: grid;
+  width: 100% !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}

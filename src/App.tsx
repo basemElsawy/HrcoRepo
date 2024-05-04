@@ -18,6 +18,7 @@ import SidePanel from "./Components/requestsPanel/sidePanel.js";
 import ProgressComp from "./Components/ProgressComponent/ProgressComp.js";
 import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import AddNewProgress from "./Components/ProgressComponent/AddNewProgress/AddNewProgress.js";
 function App(props: any) {
   const navigate = useNavigate();
   const employeeState: boolean = true;
@@ -61,6 +62,7 @@ function App(props: any) {
                 />
                 <Route path="/comments" element={<AllComments />} />
                 <Route path="/progress" element={<ProgressComp />} />
+                <Route path="/progress/add-new" element={<AddNewProgress />} />
               </Routes>
             </div>
           </main>

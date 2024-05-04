@@ -299,9 +299,7 @@ const AllComments = () => {
           <i className="fa-solid fa-caret-left"></i>
           <p>Prev</p>
         </button>
-        {/* <div
-          className={styles.middleText}
-        >{`${current} of ${allUsersPage.pageCount}`}</div> */}
+
         <button className={styles.pageHandlers} onClick={nextPageHandler}>
           <p>Next</p>
           <i className="fa-solid fa-caret-right"></i>

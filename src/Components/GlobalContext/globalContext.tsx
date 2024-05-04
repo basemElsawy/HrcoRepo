@@ -29,6 +29,7 @@ const GlobalContext = ({ children }: any) => {
   const [allUsersData, setAllUsers] = useState<ModalSelectOptions[]>([]);
   const [requestsSidePanel, setRequests] = useState<boolean>(false);
   const [notificationCount, setNotificationCount] = useState<number>(0);
+  const [isLoadingGlobal, setIsLoadingGlobal] = useState(false);
   useEffect(() => {
     apiService
       .GetMethod("/api/Authentication/getAllRoles")
@@ -37,7 +38,7 @@ const GlobalContext = ({ children }: any) => {
       })
       .catch((err) => console.log(err));
     empService
-      .GetAllUsers(1, 30)
+      .GetAllUsers(1, 60)
       .then((res: UsersPage) => {
         if (res.data) {
           let usersOptions = res.data?.map(
@@ -72,6 +73,8 @@ const GlobalContext = ({ children }: any) => {
     setRequests,
     setNotificationCount,
     notificationCount,
+    isLoadingGlobal,
+    setIsLoadingGlobal,
   };
 
   return (

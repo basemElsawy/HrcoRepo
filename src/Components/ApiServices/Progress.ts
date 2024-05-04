@@ -27,6 +27,15 @@ class ProgressService {
       console.log(err);
     }
   }
+
+  public async searchProgressByDate(apiName: string, body: any) {
+    try {
+      let searchedProgress = await this._apiClient.post(apiName, body);
+      return searchedProgress.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default ProgressService;
