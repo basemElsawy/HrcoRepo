@@ -121,3 +121,16 @@ i.fa-circle-info {
   color: #033f98 !important;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.15) !important;
 }
+
+.prog-calendar .p-calendar {
+  margin: 0 !important;
+  padding: 8px;
+  & input {
+    padding: 9px 10px;
+  }
+}
+
+.form-control {
+  font-size: 14px !important;
+  padding: 9px 10px !important;
+}

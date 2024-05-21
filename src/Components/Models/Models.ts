@@ -130,6 +130,7 @@ export interface ModeratorCommentModel {
 export interface ModalSelectOptions {
   id: number;
   userID: string;
+  image?: string;
   option: string;
   value: string;
 }

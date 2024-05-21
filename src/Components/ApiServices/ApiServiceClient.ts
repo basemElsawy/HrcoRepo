@@ -35,7 +35,7 @@ export class ApiClient {
         "Content-Type": "application/json-patch+json",
       },
 
-      body,
+      body: JSON.stringify(body),
     });
   }
   async patch<PatchRequestBody>(url: string, body: PatchRequestBody | any) {

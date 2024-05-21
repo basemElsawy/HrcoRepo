@@ -146,10 +146,7 @@ const AllComments = () => {
       commentMessage,
     };
     commentService
-      .editOnSpecificComment(
-        "/api/Comments/editComment",
-        JSON.stringify(patchCommentBody)
-      )
+      .editOnSpecificComment("/api/Comments/editComment", patchCommentBody)
       .then((res) => {
         getAdminComments();
 

@@ -1,4 +1,4 @@
-import { ProgressEditBody } from "../Models/Models";
+import { ProgressEditBody, QuarterEvaluation } from "../Models/Models";
 import ApiClient from "./ApiServiceClient";
 class ProgressService {
   _apiClient: ApiClient = new ApiClient();
@@ -32,6 +32,16 @@ class ProgressService {
     try {
       let searchedProgress = await this._apiClient.post(apiName, body);
       return searchedProgress.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public async addNewProgress(apiName: string, body: QuarterEvaluation) {
+    try {
+      let addedEvaluation = await this._apiClient.post(apiName, body);
+
+      return addedEvaluation.json();
     } catch (error) {
       console.log(error);
     }

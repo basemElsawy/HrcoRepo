@@ -44,6 +44,8 @@ const GlobalContext = ({ children }: any) => {
           let usersOptions = res.data?.map(
             (user: Users, idx: number): ModalSelectOptions => ({
               id: idx + 1,
+              userID: user.id,
+              image: user.image,
               value: user.employeeCode,
               option: user.fullName
                 .split(" ")
