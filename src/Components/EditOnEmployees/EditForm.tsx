@@ -47,6 +47,7 @@ const EditForm = (props: PropsForUpdateForm) => {
     console.log(role);
   };
   const addNewMemberHandler: SubmitHandler<Inputs> = async (data: Inputs) => {
+    console.log(data);
     const newUserData: Inputs = {
       ...data,
       image: toBase64,

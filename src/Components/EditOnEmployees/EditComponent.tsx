@@ -57,7 +57,7 @@ const EditComponent = ({ isNewEmployee }: { isNewEmployee: boolean }) => {
   const addNewMember = (data: Inputs) => {
     console.log(data);
     employeesService
-      .addNewUserToTheSystem(JSON.stringify(data))
+      .addNewUserToTheSystem(data)
       .then((response: boolean) => {
         console.log(response);
         toast("successfully added a new member");

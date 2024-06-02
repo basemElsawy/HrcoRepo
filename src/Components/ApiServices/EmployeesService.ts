@@ -59,10 +59,7 @@ class EmployeesService {
 
   public async addCommentToUser(body: Comment) {
     try {
-      let data = await this.apiClient.post(
-        "/api/Comments/setComment",
-        JSON.stringify(body)
-      );
+      let data = await this.apiClient.post("/api/Comments/setComment", body);
 
       return data.json();
     } catch (error) {

@@ -19,7 +19,7 @@ const LoginComp = (props: any) => {
 
   const signInHandler = (e: any) => {
     e.preventDefault();
-    let stringifiedBody = JSON.stringify(formData);
+    let stringifiedBody = formData;
     let role;
     _apiService
       .PostMethod("/api/Authentication/LoginApi", stringifiedBody)
