@@ -44,7 +44,7 @@ const EditComponent = ({ isNewEmployee }: { isNewEmployee: boolean }) => {
 
   const updateUser = (data: Inputs) => {
     employeesService
-      .patchSpecificUser(user?.id, JSON.stringify(data))
+      .patchSpecificUser(user?.id, data)
       .then((res) => {
         console.log(res);
       })

@@ -61,10 +61,7 @@ const ProgressComp = () => {
     };
 
     progressService
-      .searchProgressByDate(
-        "/api/Progress/SearchSpecificByDate",
-        JSON.stringify(RequestBody)
-      )
+      .searchProgressByDate("/api/Progress/SearchSpecificByDate", RequestBody)
       .then((res) => {
         setToasting(true);
         if (res.data) {
